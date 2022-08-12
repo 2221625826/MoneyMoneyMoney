@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.money.dal.mapper.AccountMapper">
+    <resultMap id="BaseResultMap" type="org.money.model.po.AccountPO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="mail" jdbcType="VARCHAR" property="mail"/>
+        <result column="phone" jdbcType="CHAR" property="phone"/>
+        <result column="create_time" jdbcType="BIGINT" property="createTime"/>
+        <result column="update_time" jdbcType="BIGINT" property="updateTime"/>
+    </resultMap>
+    <sql id="table">account</sql>
+    <sql id="cols">username, password, mail, phone, create_time, update_time</sql>
+    <insert id="insert" parameterType="org.money.model.po.AccountPO">
+        insert into
+        <include refid="table"/>
+        (<include refid="cols"/>)
+        values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+        #{mail,jdbcType=VARCHAR}, #{phone,jdbcType=CHAR}, #{createTime,jdbcType=BIGINT},
+        #{updateTime,jdbcType=BIGINT})
+    </insert>
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id">
+        insert into
+        <include refid="table"/>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            username,
+            password,
+            <if test="mail != null">
+                mail,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            `create_time`,
+            `update_time`,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{username,jdbcType=VARCHAR},
+            #{password,jdbcType=VARCHAR},
+            <if test="mail != null">
+                #{mail,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=CHAR},
+            </if>
+            #{createTime,jdbcType=BIGINT},
+            #{updateTime,jdbcType=BIGINT}
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="org.money.model.po.AccountPO">
+        update
+        <include refid="table"/>
+        <set>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                mail = #{mail,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                phone = #{phone,jdbcType=CHAR},
+            </if>
+            update_time = #{updateTime,jdbcType=BIGINT}
+        </set>
+        <where>id = #{id,jdbcType=INTEGER}</where>
+    </update>
+    <select id="selectByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from
+        <include refid="table"/>
+        <where>
+            username = #{username,jdbcType=VARCHAR}
+        </where>
+    </select>
+</mapper>
