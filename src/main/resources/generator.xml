@@ -15,7 +15,7 @@
             <property name="forceBigDecimals" value="false" />
         </javaTypeResolver>
         <!-- 生成模型的包名和位置 -->
-        <javaModelGenerator targetPackage="${project}.model.po" targetProject="${target}/src/main/java">
+        <javaModelGenerator targetPackage="org.${project}.model.po" targetProject="${target}/src/main/java">
             <property name="enableSubPackages" value="false" />
             <property name="trimStrings" value="false" />
         </javaModelGenerator>
@@ -24,10 +24,13 @@
             <property name="enableSubPackages" value="false" />
         </sqlMapGenerator>
         <!-- 生成DAO的包名和位置 -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="${project}.dal.mapper" targetProject="${target}/src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="org.${project}.dal.mapper" targetProject="${target}/src/main/java">
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
         <!-- 要生成那些表(更改tableName和domainObjectName就可以) --><!-- 6 -->
-        <table tableName="${table.name}" domainObjectName="${code.name}"/>
+        <table tableName="${table1.name}" domainObjectName="${code1.name}"/>
+        <table tableName="${table2.name}" domainObjectName="${code2.name}"/>
+        <table tableName="${table3.name}" domainObjectName="${code3.name}"/>
+        <table tableName="${table4.name}" domainObjectName="${code4.name}"/>
         </context>
 </generatorConfiguration>

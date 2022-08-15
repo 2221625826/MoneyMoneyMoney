@@ -1,6 +1,6 @@
 CREATE TABLE `user_info` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'user_info表Id',
-  `user_id` int unsigned NOT NULL COMMENT 'userId',
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'user_info表Id',
+  `user_id` bigint unsigned NOT NULL COMMENT 'userId',
   `sex` int DEFAULT NULL COMMENT '性别 0-女 1-男',
   `birthday` char(10) NOT NULL COMMENT '出生年月',
   `introduce` varchar(500) DEFAULT NULL COMMENT '自我介绍',

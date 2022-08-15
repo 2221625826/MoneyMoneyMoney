@@ -1,5 +1,5 @@
 CREATE TABLE `account` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'userId',
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'userId',
   `username` varchar(100) NOT NULL COMMENT '用户名',
   `password` varchar(100) NOT NULL COMMENT '密码',
   `mail` varchar(100) DEFAULT NULL COMMENT '邮箱',
