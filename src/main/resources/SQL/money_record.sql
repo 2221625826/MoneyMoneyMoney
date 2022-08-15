@@ -1,4 +1,4 @@
-CREATE TABLE `pay_earn_record` (
+CREATE TABLE `money_record` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '账单id',
   `user_id` bigint NOT NULL COMMENT '用户id',
   `amount` bigint NOT NULL COMMENT '金额',

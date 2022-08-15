@@ -5,7 +5,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class PayEarnRecord {
+public class MoneyRecord {
     /**
      * 账单id
      */
