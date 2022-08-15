@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class CookieUtils {
 
-    public static final int MAG_AGE = -1;
-
     public static final String LOGIN_TOKEN = "MoneyMoneyMoney-token";
 
     /**
