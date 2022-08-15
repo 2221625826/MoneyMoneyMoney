@@ -20,8 +20,8 @@ import org.money.util.http.AjaxResult;
  */
 @RestController
 @Slf4j
-@RequestMapping("/login")
-public class LoginController extends BaseController{
+@RequestMapping("/user")
+public class UserController extends BaseController{
 
     @Autowired
     LoginService loginService;

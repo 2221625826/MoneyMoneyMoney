@@ -1,16 +1,16 @@
 package org.money.dal.mapper;
 
 import java.util.List;
-import org.money.model.po.MoneyRecord;
+import org.money.model.po.MoneyRecordPO;
 
 public interface MoneyRecordMapper {
     int deleteByPrimaryKey(Long id);
 
-    int insert(MoneyRecord record);
+    int insert(MoneyRecordPO record);
 
-    MoneyRecord selectByPrimaryKey(Long id);
+    MoneyRecordPO selectByPrimaryKey(Long id);
 
-    List<MoneyRecord> selectAll();
+    List<MoneyRecordPO> selectAll();
 
-    int updateByPrimaryKey(MoneyRecord record);
+    int updateByPrimaryKey(MoneyRecordPO record);
 }
