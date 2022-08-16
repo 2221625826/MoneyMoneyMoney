@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class UserInfoPO {
-    private Integer id;
+    private Long id;
 
-    private Integer userId;
+    private Long userId;
 
     private Integer sex;
 

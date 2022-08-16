@@ -23,7 +23,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
-        <!--Druid starter-->
+        <!--中间件 starter-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
@@ -32,7 +32,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>2.0.7</version>
+            <version>2.0.10</version>
         </dependency>
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
@@ -80,6 +80,11 @@
             <artifactId>druid</artifactId>
             <version>1.2.11</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <version>2.7.2</version>
+        </dependency>
         <!--token-->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -124,7 +129,6 @@
         </dependency>
         <!--validator结束-->
     </dependencies>
-
 
     <build>
         <plugins>

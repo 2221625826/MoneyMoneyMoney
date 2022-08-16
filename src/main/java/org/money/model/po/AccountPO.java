@@ -9,7 +9,7 @@ public class AccountPO {
     /**
      * userId
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 用户名
