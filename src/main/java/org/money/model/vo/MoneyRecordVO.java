@@ -48,12 +48,7 @@ public class MoneyRecordVO {
      */
     private String payTime;
 
-    /**
-     * 状态 0-已支付 1-待支付 2-已删除
-     */
-    private Integer status;
-
-    public MoneyRecordVO of(MoneyRecordPO moneyRecordPO) {
+    public static MoneyRecordVO of(MoneyRecordPO moneyRecordPO) {
         MoneyRecordVO res = new MoneyRecordVO();
         BeanUtils.copyProperties(moneyRecordPO, res);
         res.setReverse(Objects.equals(moneyRecordPO.getReverse(), 1) ? Boolean.TRUE : Boolean.FALSE);

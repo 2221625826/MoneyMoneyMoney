@@ -1,14 +1,15 @@
-package org.money.model.po.request;
+package org.money.model.request;
 
-import lombok.Data;
+import lombok.Getter;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author zhangyiheng03
  * @since 2022/8/15 15:29
  */
-@Data
+@Getter
 public class MoneyListRequest {
     /**
      * 页码
@@ -25,15 +26,12 @@ public class MoneyListRequest {
     /**
      * 年份
      */
+    @NotNull
     private Integer year;
 
     /**
      * 月份
      */
+    @NotNull
     private Integer month;
-
-    /**
-     * 日
-     */
-    private Integer day;
 }

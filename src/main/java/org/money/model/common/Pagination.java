@@ -30,4 +30,27 @@ public class Pagination {
         this.page = page;
         this.size = size;
     }
+
+    public void setTotal(int total) {
+        this.total = total;
+        if (this.size != 0) {
+            this.totalPage = total / this.size + (total % this.size > 0 ? 1 : 0);
+        }
+    }
+
+    /**
+     * 页起始
+     * @return 第一项下标
+     */
+    public int getStartIndex() {
+        return (this.page - 1) * this.size;
+    }
+
+    /**
+     * 页末尾
+     * @return 最后一项下标
+     */
+    public int getEndIndex() {
+        return this.page * this.size - 1;
+    }
 }

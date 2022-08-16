@@ -31,7 +31,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 return false;
             }
             if (JWTUtils.checkToken(token)) {
-                Integer userId = JWTUtils.getUserIdFromToken(token);
+                Long userId = JWTUtils.getUserIdFromToken(token);
                 UserContext.setUserId(userId);
             } else {
                 response.setStatus(HttpCode.NEED_LOGIN.getCode());

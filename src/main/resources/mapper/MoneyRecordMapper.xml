@@ -12,41 +12,54 @@
     <result column="create_time" jdbcType="BIGINT" property="createTime" />
     <result column="update_time" jdbcType="BIGINT" property="updateTime" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deleteBatch" parameterType="java.lang.Long">
     delete from money_record
-    where id = #{id,jdbcType=BIGINT}
+    where id in
+    <foreach collection="list" item="id" open="(" separator="," close=")">
+    #{id}
+    </foreach>
   </delete>
   <insert id="insert" parameterType="org.money.model.po.MoneyRecordPO">
-    insert into money_record (id, user_id, amount,
+    insert into money_record (user_id, amount,
       reverse, category_id, remark, 
       pay_time, create_time, update_time
       )
-    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{amount,jdbcType=BIGINT}, 
+    values (#{userId,jdbcType=BIGINT}, #{amount,jdbcType=BIGINT},
       #{reverse,jdbcType=INTEGER}, #{categoryId,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, 
       #{payTime,jdbcType=BIGINT}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="org.money.model.po.MoneyRecordPO">
     update money_record
-    set user_id = #{userId,jdbcType=BIGINT},
-      amount = #{amount,jdbcType=BIGINT},
-      reverse = #{reverse,jdbcType=INTEGER},
-      category_id = #{categoryId,jdbcType=BIGINT},
-      remark = #{remark,jdbcType=VARCHAR},
-      pay_time = #{payTime,jdbcType=BIGINT},
-      create_time = #{createTime,jdbcType=BIGINT},
+    set
+      <if test="amount != null">
+        amount = #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="reverse != null">
+        reverse = #{reverse,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null">
+        category_id = #{categoryId,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null">
+        pay_time = #{payTime,jdbcType=BIGINT},
+      </if>
       update_time = #{updateTime,jdbcType=BIGINT}
-    where id = #{id,jdbcType=BIGINT}
+    <where>
+        id = #{id,jdbcType=BIGINT} AND
+        user_id = #{userId,jdbcType=BIGINT}
+    </where>
   </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select id, user_id, amount, reverse, category_id, remark, pay_time, create_time, 
-    update_time
+  <select id="selectByTime" resultMap="BaseResultMap">
+    select *
     from money_record
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select id, user_id, amount, reverse, category_id, remark, pay_time, create_time, 
-    update_time
-    from money_record
+    <where>
+      user_id = #{userId,jdbcType=BIGINT} AND
+      pay_time &gt; #{startTime,jdbcType=BIGINT} AND
+      pay_time &lt; #{endTime,jdbcType=BIGINT}
+    </where>
   </select>
 </mapper>

@@ -60,12 +60,12 @@ public class JWTUtils {
      * @param token token字符串
      * @return 用户id
      */
-    public static Integer getUserIdFromToken(String token)
+    public static Long getUserIdFromToken(String token)
     {
         Claims body;
         try {
             body = Jwts.parser().setSigningKey(KEY.getBytes(StandardCharsets.UTF_8)).parseClaimsJws(token).getBody();
-            return Integer.valueOf(body.getSubject());
+            return Long.valueOf(body.getSubject());
         } catch (Exception e) {
             log.error(e.getMessage());
             return null;

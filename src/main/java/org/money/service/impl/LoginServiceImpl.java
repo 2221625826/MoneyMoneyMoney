@@ -2,11 +2,12 @@ package org.money.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 
+import javax.annotation.Resource;
+
 import java.sql.SQLException;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +26,7 @@ import org.money.util.exception.ServiceException;
 @Service
 @Slf4j
 public class LoginServiceImpl implements LoginService {
-    @Autowired
+    @Resource
     AccountDAO accountDAO;
 
     @Override

@@ -4,13 +4,12 @@ import java.util.List;
 import org.money.model.po.MoneyRecordPO;
 
 public interface MoneyRecordMapper {
-    int deleteByPrimaryKey(Long id);
 
     int insert(MoneyRecordPO record);
 
-    MoneyRecordPO selectByPrimaryKey(Long id);
-
-    List<MoneyRecordPO> selectAll();
+    List<MoneyRecordPO> selectByTime(long userId, long startTime, long endTime);
 
     int updateByPrimaryKey(MoneyRecordPO record);
+
+    boolean deleteBatch(List<Long> ids);
 }

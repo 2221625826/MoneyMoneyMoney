@@ -2,10 +2,10 @@ package org.money.integration;
 
 import lombok.extern.slf4j.Slf4j;
 
+import javax.annotation.Resource;
+
 import java.io.IOException;
 import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.money.util.http.HttpClientTemplate;
 
@@ -17,7 +17,7 @@ import org.money.util.http.HttpClientTemplate;
 @Slf4j
 public abstract class RomoteBaseServiceImpl {
 
-    @Autowired
+    @Resource
     protected HttpClientTemplate httpClientTemplate;
 
     protected static final Integer GET = 0;

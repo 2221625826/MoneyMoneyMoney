@@ -1,10 +1,10 @@
 package org.money.dal.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import javax.annotation.Resource;
 
 import org.money.dal.mapper.AccountMapper;
 import org.money.model.po.AccountPO;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author zhangyiheng03
@@ -12,7 +12,7 @@ import org.money.model.po.AccountPO;
  */
 @Repository
 public class AccountDAO {
-    @Autowired
+    @Resource
     AccountMapper accountMapper;
 
     public AccountPO getAccount(String username) {

@@ -2,15 +2,18 @@ package org.money.model.po;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
 import org.money.model.vo.MoneyRecordVO;
 import org.money.util.DateTimeUtils;
 import org.springframework.beans.BeanUtils;
 
 @Data
 @Accessors(chain = true)
+@Slf4j
 public class MoneyRecordPO {
     /**
      * 账单id
@@ -61,14 +64,16 @@ public class MoneyRecordPO {
         MoneyRecordPO res = new MoneyRecordPO();
         BeanUtils.copyProperties(moneyRecordVO, res);
         res.setReverse(Objects.equals(moneyRecordVO.getReverse(), Boolean.TRUE) ? 1 : 0);
-        if (Objects.isNull(res.getCategoryId())) {
-            res.setCategoryId(0L);//默认类别
+        if (StringUtils.isBlank(moneyRecordVO.getPayTime())) {
+            res.setPayTime(System.currentTimeMillis());
+        } else {
+            try {
+                res.setPayTime(DateTimeUtils.parseStringToLong(moneyRecordVO.getPayTime(), DateTimeUtils.YEAR_MONTH_DAY_FORMAT));
+            } catch (Exception e) {
+                log.error("[op:of] parse fail, payTime:{}", moneyRecordVO.getPayTime());
+                res.setPayTime(System.currentTimeMillis());
+            }
         }
-        if (Objects.isNull(res.getReverse())) {
-            res.setCategoryId(1L);//默认支出
-        }
-        res.setPayTime(DateTimeUtils.parseStringToLong(moneyRecordVO.getPayTime(), DateTimeUtils.YEAR_MONTH_DAY_FORMAT));
-        res.setUpdateTime(System.currentTimeMillis());
         return res;
     }
 }

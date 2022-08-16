@@ -2,8 +2,9 @@ package org.money.web.controller;
 
 import lombok.extern.slf4j.Slf4j;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +24,7 @@ import org.money.util.http.AjaxResult;
 @RequestMapping("/user")
 public class UserController extends BaseController{
 
-    @Autowired
+    @Resource
     LoginService loginService;
 
     @GetMapping("/login")
