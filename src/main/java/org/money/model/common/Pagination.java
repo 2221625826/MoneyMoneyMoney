@@ -42,7 +42,7 @@ public class Pagination {
      * 页起始
      * @return 第一项下标
      */
-    public int getStartIndex() {
+    public int genStartIndex() {
         return (this.page - 1) * this.size;
     }
 
@@ -50,7 +50,7 @@ public class Pagination {
      * 页末尾
      * @return 最后一项下标
      */
-    public int getEndIndex() {
+    public int genEndIndex() {
         return this.page * this.size - 1;
     }
 }

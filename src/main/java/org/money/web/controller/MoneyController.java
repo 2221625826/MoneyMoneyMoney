@@ -13,7 +13,6 @@ import org.money.model.vo.MoneyRecordVO;
 import org.money.service.MoneyService;
 import org.money.util.http.AjaxResult;
 import org.money.web.UserContext;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,8 +39,7 @@ public class MoneyController extends BaseController{
     public AjaxResult list(@RequestBody MoneyListRequest moneyListRequest) {
         Long userId = UserContext.getUserId();
         if (Objects.isNull(userId)) {
-            userId = 0L;
-            //return initFailureResult("未登录");
+            return initFailureResult("未登录");
         }
         return initSuccessResult(
                 moneyService.listMoney(
@@ -57,8 +55,7 @@ public class MoneyController extends BaseController{
     public AjaxResult add(@RequestBody MoneyRecordVO moneyRecordVO) {
         Long userId = UserContext.getUserId();
         if (Objects.isNull(userId)) {
-            userId = 0L;
-            //return initFailureResult("未登录");
+            return initFailureResult("未登录");
         }
         return initSuccessResult(moneyService.addMoney(userId, moneyRecordVO));
     }
@@ -67,8 +64,7 @@ public class MoneyController extends BaseController{
     public AjaxResult change(@RequestBody MoneyRecordVO moneyRecordVO) {
         Long userId = UserContext.getUserId();
         if (Objects.isNull(userId)) {
-            userId = 0L;
-            //return initFailureResult("未登录");
+            return initFailureResult("未登录");
         }
         if (Objects.isNull(moneyRecordVO.getId())) {
             return initFailureResult("请指定账单记录");
@@ -76,7 +72,7 @@ public class MoneyController extends BaseController{
         return initSuccessResult(moneyService.changeMoney(userId, moneyRecordVO));
     }
 
-    @GetMapping("/batchDelete")
+    @PostMapping("/batchDelete")
     public AjaxResult delete(@RequestBody MoneyDeleteRequest moneyDeleteRequest) {
         Long userId = UserContext.getUserId();
         if (Objects.isNull(userId)) {

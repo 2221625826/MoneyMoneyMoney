@@ -50,13 +50,16 @@ public class MoneyRecordDAO {
         if (Objects.equals(redisTemplate.hasKey(redisKey), Boolean.TRUE)) {
             List<MoneyRecordPO> allRecord = JSON.parseArray(redisTemplate.opsForValue().get(redisKey), MoneyRecordPO.class);
             allRecord.add(moneyRecordPO);
-            allRecord.sort((a,b)-> (int) (a.getPayTime() - b.getPayTime()));
+            allRecord.sort((a, b) -> (int) (a.getPayTime() - b.getPayTime()));
             redisTemplate.opsForValue().set(redisKey, JSON.toJSONString(allRecord));
+            log.info("[op:add] update cache ,redisKey:{}, allRecord:{}",
+                    redisKey, JSON.toJSONString(allRecord));
         }
         return moneyRecordMapper.insert(moneyRecordPO) > 0;
     }
 
     public boolean change(MoneyRecordPO moneyRecordPO) {
+        moneyRecordPO.setUpdateTime(System.currentTimeMillis());
         String redisKey = getRedisKey(moneyRecordPO.getPayTime(), moneyRecordPO.getUserId());
         if (Objects.equals(redisTemplate.hasKey(redisKey), Boolean.TRUE)) {
             List<MoneyRecordPO> allRecord = JSON.parseArray(redisTemplate.opsForValue().get(redisKey), MoneyRecordPO.class);
@@ -64,6 +67,8 @@ public class MoneyRecordDAO {
                 if (Objects.equals(moneyRecordPO.getId(), allRecord.get(i).getId())) {
                     allRecord.set(i, moneyRecordPO);
                 }
+                log.info("[op:change] update cache ,redisKey:{}, allRecord:{}",
+                        redisKey, JSON.toJSONString(allRecord));
             }
             redisTemplate.opsForValue().set(redisKey, JSON.toJSONString(allRecord));
         }
@@ -74,6 +79,7 @@ public class MoneyRecordDAO {
         String redisKey = RedisKeys.genUserMoneyListKey(userId, year, month);
         if (Objects.equals(redisTemplate.hasKey(redisKey), Boolean.TRUE)) {
             redisTemplate.delete(redisKey);
+            log.info("[op:delete] delete cache ,redisKey:{}", redisKey);
         }
         return moneyRecordMapper.deleteBatch(ids);
     }

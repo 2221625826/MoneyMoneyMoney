@@ -6,14 +6,16 @@ import lombok.extern.slf4j.Slf4j;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
+import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
 import org.money.model.enums.HttpCode;
 import org.money.util.CookieUtils;
 import org.money.util.JWTUtils;
 import org.money.web.UserContext;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 身份鉴权校验
@@ -22,9 +24,18 @@ import org.money.web.UserContext;
  */
 @Slf4j
 public class AuthenticationInterceptor implements HandlerInterceptor {
+
+    @Value("${spring.profiles.active}")
+    private String env;
+
     @Override
     public boolean preHandle(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler) {
         try {
+            if (Objects.equals(env, "dev")) {
+                log.info("test userId = 0");
+                UserContext.setUserId(0L);
+                return true;
+            }
             String token = CookieUtils.getCookie(CookieUtils.LOGIN_TOKEN, request);
             if (StringUtils.isBlank(token)) {
                 response.setStatus(HttpCode.NEED_LOGIN.getCode());

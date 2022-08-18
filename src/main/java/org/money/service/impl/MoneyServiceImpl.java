@@ -15,8 +15,6 @@ import org.money.model.vo.MoneyRecordVO;
 import org.money.service.MoneyService;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson2.JSON;
-
 /**
  * @author zhangyiheng03
  * @since 2022/8/16 14:03
@@ -31,12 +29,11 @@ public class MoneyServiceImpl implements MoneyService {
     @Override
     public PageResult<MoneyRecordVO> listMoney(long userId, Pagination pagination, int year, int month) {
         List<MoneyRecordPO> allRecord = moneyRecordDAO.listByTime(userId, year, month);
-        log.info("[op:listMoney] allRecord:{}", JSON.toJSONString(allRecord));
         PageResult<MoneyRecordVO> res = new PageResult<>();
         pagination.setTotal(allRecord.size());
         res.setPagination(pagination);
         List<MoneyRecordVO> retList = new ArrayList<>();
-        for (int i = pagination.getStartIndex(); i <= Math.min(pagination.getEndIndex(), allRecord.size() - 1); i++) {
+        for (int i = pagination.genStartIndex(); i <= Math.min(pagination.genEndIndex(), allRecord.size() - 1); i++) {
             retList.add(MoneyRecordVO.of(allRecord.get(i)));
         }
         res.setResult(retList);
