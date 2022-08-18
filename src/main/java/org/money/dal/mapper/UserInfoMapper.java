@@ -1,10 +1,11 @@
 package org.money.dal.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
+import org.money.model.po.UserInfoPO;
 
-@Mapper
-@Repository
 public interface UserInfoMapper {
+    int updateByPrimaryKey(UserInfoPO record);
 
+    UserInfoPO getByUserId(long userId);
+
+    int insert(UserInfoPO record);
 }

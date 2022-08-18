@@ -43,6 +43,17 @@ public class UserInfoPO {
      */
     private Long updateTime;
 
+    public static UserInfoPO build(Long userId) {
+        UserInfoPO res = new UserInfoPO();
+        res.setUserId(userId);
+        res.setSex(2);
+        res.setBirthday(null);
+        res.setIntroduce("");
+        res.setUpdateTime(System.currentTimeMillis());
+        res.setCreateTime(System.currentTimeMillis());
+        return res;
+    }
+
     public static UserInfoPO of(UserInfoVO userInfoVO) {
         UserInfoPO res = new UserInfoPO();
         BeanUtils.copyProperties(userInfoVO, res);

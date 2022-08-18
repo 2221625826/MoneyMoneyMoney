@@ -20,8 +20,8 @@ public abstract class RomoteBaseServiceImpl {
     @Resource
     protected HttpClientTemplate httpClientTemplate;
 
-    protected static final Integer GET = 0;
-    protected static final Integer POST = 1;
+    protected static final int GET = 0;
+    protected static final int POST = 1;
 
     /**
      * 加上前缀host
@@ -37,8 +37,8 @@ public abstract class RomoteBaseServiceImpl {
         String fullUrl = getFullUrl(subUrl);
         try {
             return switch (type) {
-                case 0 -> httpClientTemplate.executeGet(fullUrl);
-                case 1 -> httpClientTemplate.executePost(fullUrl);
+                case GET -> httpClientTemplate.executeGet(fullUrl);
+                case POST -> httpClientTemplate.executePost(fullUrl);
                 default -> null;
             };
         } catch (IOException e) {
@@ -50,8 +50,8 @@ public abstract class RomoteBaseServiceImpl {
         String fullUrl = getFullUrl(subUrl);
         try {
             return switch (type) {
-                case 0 -> httpClientTemplate.executeGet(fullUrl, httpClientTemplate.parseToNameValuePairs(params));
-                case 1 -> httpClientTemplate.executePost(fullUrl, httpClientTemplate.parseToNameValuePairs(params));
+                case GET -> httpClientTemplate.executeGet(fullUrl, httpClientTemplate.parseToNameValuePairs(params));
+                case POST -> httpClientTemplate.executePost(fullUrl, httpClientTemplate.parseToNameValuePairs(params));
                 default -> null;
             };
         } catch (IOException e) {

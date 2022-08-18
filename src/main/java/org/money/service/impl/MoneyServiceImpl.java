@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Resource;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +18,7 @@ import org.money.service.MoneyService;
 import org.money.util.DateTimeUtils;
 import org.money.util.exception.ServiceException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author zhangyiheng03
@@ -55,11 +57,16 @@ public class MoneyServiceImpl implements MoneyService {
     }
 
     @Override
+    @Transactional(rollbackFor = {SQLException.class, ServiceException.class})
     public MoneyRecordVO changeMoney(long userId, MoneyRecordVO moneyRecordVO) {
         MoneyRecordPO moneyRecordPO = MoneyRecordPO.of(moneyRecordVO);
         moneyRecordPO.setUserId(userId);
-        moneyRecordDAO.change(moneyRecordPO);
-        return moneyRecordVO;
+        if (moneyRecordDAO.change(moneyRecordPO)) {
+            return moneyRecordVO;
+        } else {
+            throw new ServiceException("修改失败");
+        }
+
     }
 
     @Override

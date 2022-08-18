@@ -1,5 +1,7 @@
 package org.money.service;
 
+import org.money.model.vo.UserInfoVO;
+
 /**
  * 登录
  * @author zhangyiheng03
@@ -22,4 +24,17 @@ public interface LoginService {
      * @return 登录token
      */
     String register(String username, String password);
+
+    /**
+     * 编辑用户信息
+     * @param userInfoVO 新的用户信息
+     * @return 更新后的用户信息
+     */
+    UserInfoVO editUserInfo(UserInfoVO userInfoVO);
+
+    /**
+     * 获取用户信息
+     * @return 用户信息
+     */
+    UserInfoVO getUserInfo(Long userId);
 }

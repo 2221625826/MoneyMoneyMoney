@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
+import org.money.dal.dao.UserInfoDAO;
+import org.money.model.po.UserInfoPO;
+import org.money.model.vo.UserInfoVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +31,9 @@ import org.money.util.exception.ServiceException;
 public class LoginServiceImpl implements LoginService {
     @Resource
     AccountDAO accountDAO;
+
+    @Resource
+    UserInfoDAO userInfoDAO;
 
     @Override
     public String login(String username, String password) {
@@ -54,8 +60,26 @@ public class LoginServiceImpl implements LoginService {
         }
         account = AccountPO.build(username, password);
         accountDAO.insert(account);
+        userInfoDAO.insert(UserInfoPO.build(account.getId()));
         log.info("[op:register] userId={}", account.getId());
         return JWTUtils.createToken(String.valueOf(account.getId()));
+    }
+
+    @Override
+    @Transactional(rollbackFor = {SQLException.class, ServiceException.class})
+    public UserInfoVO editUserInfo(UserInfoVO userInfoVO) {
+        UserInfoPO userInfoPO = UserInfoPO.of(userInfoVO);
+        if (userInfoDAO.edit(userInfoPO)) {
+            return userInfoVO;
+        } else {
+            throw new ServiceException("修改失败");
+        }
+
+    }
+
+    @Override
+    public UserInfoVO getUserInfo(Long userId) {
+        return UserInfoVO.of(userInfoDAO.get(userId));
     }
 
 

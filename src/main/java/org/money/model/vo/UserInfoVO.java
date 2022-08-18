@@ -2,6 +2,8 @@ package org.money.model.vo;
 
 import lombok.Data;
 
+import java.util.Objects;
+
 import org.money.model.po.UserInfoPO;
 import org.money.util.DateTimeUtils;
 import org.springframework.beans.BeanUtils;
@@ -41,7 +43,11 @@ public class UserInfoVO {
             case 1 -> "男";
             default -> "未知";
         });
-        res.setBirthday(DateTimeUtils.parseLongToString(userInfoPO.getBirthday(), DateTimeUtils.YEAR_MONTH_DAY_FORMAT));
+        if (Objects.isNull(userInfoPO.getBirthday())) {
+            res.setBirthday("未填写");
+        } else {
+            res.setBirthday(DateTimeUtils.parseLongToString(userInfoPO.getBirthday(), DateTimeUtils.YEAR_MONTH_DAY_FORMAT));
+        }
         return res;
     }
 }
