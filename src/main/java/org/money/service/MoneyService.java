@@ -24,22 +24,25 @@ public interface MoneyService {
 
     /**
      * 添加账单记录
+     *
      * @param moneyRecordVO 数据表单
      * @return 是否完成
      */
-     boolean addMoney(long userId, MoneyRecordVO moneyRecordVO);
+     List<MoneyRecordVO> addMoney(long userId, MoneyRecordVO moneyRecordVO);
 
     /**
      * 修改账单记录
+     *
      * @param moneyRecordVO 数据表单
      * @return 是否完成
      */
-     boolean changeMoney(long userId, MoneyRecordVO moneyRecordVO);
+     MoneyRecordVO changeMoney(long userId, MoneyRecordVO moneyRecordVO);
 
     /**
      * 删除账单记录
+     *
      * @param moneyIds 需要删除的账单id
      * @return 是否完成
      */
-     boolean deleteMoney(long userId, List<Long> moneyIds,int year, int month);
+     List<MoneyRecordVO> deleteMoney(long userId, List<Long> moneyIds, int year, int month);
 }

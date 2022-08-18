@@ -67,12 +67,7 @@ public class MoneyRecordPO {
         if (StringUtils.isBlank(moneyRecordVO.getPayTime())) {
             res.setPayTime(System.currentTimeMillis());
         } else {
-            try {
-                res.setPayTime(DateTimeUtils.parseStringToLong(moneyRecordVO.getPayTime(), DateTimeUtils.YEAR_MONTH_DAY_FORMAT));
-            } catch (Exception e) {
-                log.error("[op:of] parse fail, payTime:{}", moneyRecordVO.getPayTime());
-                res.setPayTime(System.currentTimeMillis());
-            }
+            res.setPayTime(DateTimeUtils.parseStringToLong(moneyRecordVO.getPayTime(), DateTimeUtils.YEAR_MONTH_DAY_FORMAT));
         }
         return res;
     }

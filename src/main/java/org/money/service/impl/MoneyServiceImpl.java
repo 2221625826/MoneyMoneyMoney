@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.money.dal.dao.MoneyRecordDAO;
 import org.money.model.common.PageResult;
@@ -13,6 +14,8 @@ import org.money.model.common.Pagination;
 import org.money.model.po.MoneyRecordPO;
 import org.money.model.vo.MoneyRecordVO;
 import org.money.service.MoneyService;
+import org.money.util.DateTimeUtils;
+import org.money.util.exception.ServiceException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -41,21 +44,33 @@ public class MoneyServiceImpl implements MoneyService {
     }
 
     @Override
-    public boolean addMoney(long userId, MoneyRecordVO moneyRecordVO) {
+    public List<MoneyRecordVO> addMoney(long userId, MoneyRecordVO moneyRecordVO) {
         MoneyRecordPO moneyRecordPO = MoneyRecordPO.of(moneyRecordVO);
         moneyRecordPO.setUserId(userId);
-        return moneyRecordDAO.add(moneyRecordPO);
+        moneyRecordDAO.add(moneyRecordPO);
+        long payTime = moneyRecordPO.getPayTime();
+        int year = DateTimeUtils.getYearFromLong(payTime);
+        int month = DateTimeUtils.getMonthFromLong(payTime);
+        return moneyRecordDAO.listByTime(userId, year, month).stream().map(MoneyRecordVO::of).collect(Collectors.toList());
     }
 
     @Override
-    public boolean changeMoney(long userId, MoneyRecordVO moneyRecordVO) {
+    public MoneyRecordVO changeMoney(long userId, MoneyRecordVO moneyRecordVO) {
         MoneyRecordPO moneyRecordPO = MoneyRecordPO.of(moneyRecordVO);
         moneyRecordPO.setUserId(userId);
-        return moneyRecordDAO.change(moneyRecordPO);
+        moneyRecordDAO.change(moneyRecordPO);
+        return moneyRecordVO;
     }
 
     @Override
-    public boolean deleteMoney(long userId, List<Long> moneyIds, int year, int month) {
-        return moneyRecordDAO.delete(moneyIds, year, month, userId);
+    public List<MoneyRecordVO> deleteMoney(long userId, List<Long> moneyIds, int year, int month) {
+        List<MoneyRecordPO> allRecord = moneyRecordDAO.listByTime(userId, year, month);
+        if (moneyIds.retainAll(allRecord.stream().map(MoneyRecordPO::getId).collect(Collectors.toList()))) {
+            log.error("[op:deleteMoney] illegal parameter userId:{}, year:{}, month:{}, moneyIds:{}",
+                    userId, year, month, moneyIds);
+            throw new ServiceException("试图删除 不在当月的记录");
+        }
+        moneyRecordDAO.delete(moneyIds, year, month, userId);
+        return moneyRecordDAO.listByTime(userId, year, month).stream().map(MoneyRecordVO::of).collect(Collectors.toList());
     }
 }

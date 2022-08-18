@@ -58,6 +58,7 @@ public class LoginServiceImpl implements LoginService {
         return JWTUtils.createToken(String.valueOf(account.getId()));
     }
 
+
     private boolean passwordValidate(char[] password) {
         int length = password.length;
         //长度8-30位

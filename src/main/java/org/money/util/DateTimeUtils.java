@@ -17,7 +17,7 @@ import java.util.Objects;
 @Slf4j
 public class DateTimeUtils {
     //转换器
-    public static final SimpleDateFormat YEAR_MONTH_DAY_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    public static final SimpleDateFormat YEAR_MONTH_DAY_FORMAT = new SimpleDateFormat("yyyy年MM月dd日");
     public static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public static final SimpleDateFormat RFC_3339_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
@@ -49,15 +49,15 @@ public class DateTimeUtils {
      * @param sdf  格式
      * @return 毫秒时间戳
      */
-    public static long parseStringToLong(String time, SimpleDateFormat sdf) throws ParseException {
+    public static long parseStringToLong(String time, SimpleDateFormat sdf) {
         try {
             Date date = sdf.parse(time);
             if (Objects.nonNull(date)) {
+                log.error("Date parse error, string={}", time);
                 return date.getTime();
             }
         } catch (ParseException e) {
-            log.error("Date parse error, string={}, e={}", time, e);
-            throw e;
+            log.error("Date parse error, string={}, e={}", time, e.getMessage());
         }
         return 0L;
     }

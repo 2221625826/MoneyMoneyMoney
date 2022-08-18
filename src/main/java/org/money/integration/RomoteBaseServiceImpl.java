@@ -42,7 +42,7 @@ public abstract class RomoteBaseServiceImpl {
                 default -> null;
             };
         } catch (IOException e) {
-            log.error("[rpc:{}] failed e={}", fullUrl, e);
+            log.error("[rpc:{}] failed e={}", fullUrl, e.getMessage());
         }
         return null;
     }
@@ -55,7 +55,7 @@ public abstract class RomoteBaseServiceImpl {
                 default -> null;
             };
         } catch (IOException e) {
-            log.error("[rpc:{}] failed e={}", fullUrl, e);
+            log.error("[rpc:{}] failed e={}", fullUrl, e.getMessage());
         }
         return null;
     }
