@@ -64,10 +64,14 @@ public class MoneyRecordPO {
         MoneyRecordPO res = new MoneyRecordPO();
         BeanUtils.copyProperties(moneyRecordVO, res);
         res.setReverse(Objects.equals(moneyRecordVO.getReverse(), Boolean.TRUE) ? 1 : 0);
-        if (StringUtils.isBlank(moneyRecordVO.getPayTime())) {
-            res.setPayTime(System.currentTimeMillis());
-        } else {
-            res.setPayTime(DateTimeUtils.parseStringToLong(moneyRecordVO.getPayTime(), DateTimeUtils.YEAR_MONTH_DAY_FORMAT));
+        try {
+            if (StringUtils.isBlank(moneyRecordVO.getPayTime())) {
+                res.setPayTime(System.currentTimeMillis());
+            } else {
+                res.setPayTime(DateTimeUtils.parseStringToLong(moneyRecordVO.getPayTime(), DateTimeUtils.YEAR_MONTH_DAY_FORMAT));
+            }
+        } catch (Exception ex) {
+            log.error("[op:convert] parse payTime fail, payTime:{}", moneyRecordVO.getPayTime());
         }
         return res;
     }

@@ -49,7 +49,7 @@ public class DateTimeUtils {
      * @param sdf  格式
      * @return 毫秒时间戳
      */
-    public static long parseStringToLong(String time, SimpleDateFormat sdf) {
+    public static long parseStringToLong(String time, SimpleDateFormat sdf) throws ParseException {
         try {
             Date date = sdf.parse(time);
             if (Objects.nonNull(date)) {
@@ -58,6 +58,7 @@ public class DateTimeUtils {
             }
         } catch (ParseException e) {
             log.error("Date parse error, string={}, e={}", time, e.getMessage());
+            throw e;
         }
         return 0L;
     }

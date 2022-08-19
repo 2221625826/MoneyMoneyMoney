@@ -24,12 +24,12 @@ public class AjaxResult {
     /**
      * 结果
      */
-    public Object result;
+    public Object data;
 
     public AjaxResult(HttpCode code, String msg, Object result) {
         this.code = code.getCode();
         this.msg = msg;
-        this.result = result;
+        this.data = result;
     }
 
     public AjaxResult(HttpCode code, String msg) {
@@ -40,7 +40,7 @@ public class AjaxResult {
     public AjaxResult(HttpCode code, Object result) {
         this.code = code.getCode();
         this.msg = code.getMsg();
-        this.result = result;
+        this.data = result;
     }
 
     public AjaxResult(HttpCode code) {

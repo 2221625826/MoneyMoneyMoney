@@ -87,6 +87,4 @@ public class MoneyController extends BaseController{
                 )
         );
     }
-
-
 }

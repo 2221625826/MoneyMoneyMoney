@@ -1,12 +1,14 @@
 package org.money.model.po;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import org.money.model.vo.UserInfoVO;
 import org.money.util.DateTimeUtils;
 import org.springframework.beans.BeanUtils;
 
 @Data
+@Slf4j
 public class UserInfoPO {
     /**
      * 用户信息Id
@@ -62,7 +64,11 @@ public class UserInfoPO {
             case "男" -> 1;
             default -> 2;
         });
-        res.setBirthday(DateTimeUtils.parseStringToLong(userInfoVO.getBirthday(), DateTimeUtils.YEAR_MONTH_DAY_FORMAT));
+        try {
+            res.setBirthday(DateTimeUtils.parseStringToLong(userInfoVO.getBirthday(), DateTimeUtils.YEAR_MONTH_DAY_FORMAT));
+        } catch (Exception ex) {
+            log.error("[op:convert] parse birthday fail, birthday:{}", userInfoVO.getBirthday());
+        }
         return res;
     }
 }
