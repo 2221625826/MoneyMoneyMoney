@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="org.money.model.po.MoneyRecordPO">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="amount" jdbcType="BIGINT" property="amount" />
     <result column="reverse" jdbcType="INTEGER" property="reverse" />
     <result column="category_id" jdbcType="BIGINT" property="categoryId" />
@@ -20,18 +21,21 @@
     </foreach>
   </delete>
   <insert id="insert" parameterType="org.money.model.po.MoneyRecordPO">
-    insert into money_record (user_id, amount,
+    insert into money_record (user_id, title, amount,
       reverse, category_id, remark, 
       pay_time, create_time, update_time
       )
-    values (#{userId,jdbcType=BIGINT}, #{amount,jdbcType=BIGINT},
-      #{reverse,jdbcType=INTEGER}, #{categoryId,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, 
+    values (#{userId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{amount,jdbcType=BIGINT},
+    #{reverse,jdbcType=INTEGER}, #{categoryId,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR},
       #{payTime,jdbcType=BIGINT}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="org.money.model.po.MoneyRecordPO">
     update money_record
     set
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
       <if test="amount != null">
         amount = #{amount,jdbcType=BIGINT},
       </if>

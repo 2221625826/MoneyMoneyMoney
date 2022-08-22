@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +25,11 @@ public class MoneyRecordPO {
      * 用户id
      */
     private Long userId;
+
+    /**
+     * 标题
+     */
+    private String title;
 
     /**
      * 金额
@@ -63,6 +69,7 @@ public class MoneyRecordPO {
     public static MoneyRecordPO of(MoneyRecordVO moneyRecordVO) {
         MoneyRecordPO res = new MoneyRecordPO();
         BeanUtils.copyProperties(moneyRecordVO, res);
+        res.setAmount(moneyRecordVO.getAmount().multiply(BigDecimal.valueOf(100)).longValue());
         res.setReverse(Objects.equals(moneyRecordVO.getReverse(), Boolean.TRUE) ? 1 : 0);
         try {
             if (StringUtils.isBlank(moneyRecordVO.getPayTime())) {

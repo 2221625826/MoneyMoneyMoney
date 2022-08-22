@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.money.model.common.PageResult;
 import org.money.model.common.Pagination;
+import org.money.model.response.MoneySumResponse;
 import org.money.model.vo.MoneyRecordVO;
 
 /**
@@ -45,4 +46,13 @@ public interface MoneyService {
      * @return 是否完成
      */
      List<MoneyRecordVO> deleteMoney(long userId, List<Long> moneyIds, int year, int month);
+
+    /**
+     * 账单求和
+     * @param userId 用户Id
+     * @param year 年份
+     * @param month 月份
+     * @return 当月支出和、收入和
+     */
+     MoneySumResponse sum(long userId, int year, int month);
 }
