@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
-    <contextName>todo</contextName>
-    <property name="log.path" value="/home/logs/todo"/>
+    <contextName>money</contextName>
+    <property name="log.path" value="/home/logs/money"/>
     <property name="log.level" value="info"/>
     <property name="log.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%p] [%c] %m%n"/>
 
