@@ -29,7 +29,7 @@ public interface MoneyService {
      * @param moneyRecordVO 数据表单
      * @return 是否完成
      */
-     List<MoneyRecordVO> addMoney(long userId, MoneyRecordVO moneyRecordVO);
+     boolean addMoney(long userId, MoneyRecordVO moneyRecordVO);
 
     /**
      * 修改账单记录
@@ -37,7 +37,7 @@ public interface MoneyService {
      * @param moneyRecordVO 数据表单
      * @return 是否完成
      */
-     MoneyRecordVO changeMoney(long userId, MoneyRecordVO moneyRecordVO);
+     boolean changeMoney(long userId, MoneyRecordVO moneyRecordVO);
 
     /**
      * 删除账单记录
@@ -45,7 +45,7 @@ public interface MoneyService {
      * @param moneyIds 需要删除的账单id
      * @return 是否完成
      */
-     List<MoneyRecordVO> deleteMoney(long userId, List<Long> moneyIds, int year, int month);
+     boolean deleteMoney(long userId, List<Long> moneyIds, int year, int month);
 
     /**
      * 账单求和

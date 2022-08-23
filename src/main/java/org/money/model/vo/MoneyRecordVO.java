@@ -61,7 +61,7 @@ public class MoneyRecordVO {
     public static MoneyRecordVO of(MoneyRecordPO moneyRecordPO) {
         MoneyRecordVO res = new MoneyRecordVO();
         BeanUtils.copyProperties(moneyRecordPO, res);
-        res.setAmount(BigDecimal.valueOf(moneyRecordPO.getAmount()).divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP));
+        res.setAmount(BigDecimal.valueOf(moneyRecordPO.getAmount()).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP));
         res.setReverse(Objects.equals(moneyRecordPO.getReverse(), 1) ? Boolean.TRUE : Boolean.FALSE);
         res.setPayTime(DateTimeUtils.parseLongToString(moneyRecordPO.getPayTime(), DateTimeUtils.YEAR_MONTH_DAY_FORMAT));
         return res;

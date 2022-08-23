@@ -46,6 +46,7 @@ public class MoneyRecordDAO {
     public boolean add(MoneyRecordPO moneyRecordPO) {
         moneyRecordPO.setCreateTime(System.currentTimeMillis());
         moneyRecordPO.setUpdateTime(System.currentTimeMillis());
+        boolean res = moneyRecordMapper.insert(moneyRecordPO) > 0;
         String redisKey = getRedisKey(moneyRecordPO.getPayTime(), moneyRecordPO.getUserId());
         if (Objects.equals(redisTemplate.hasKey(redisKey), Boolean.TRUE)) {
             List<MoneyRecordPO> allRecord = JSON.parseArray(redisTemplate.opsForValue().get(redisKey), MoneyRecordPO.class);
@@ -55,7 +56,7 @@ public class MoneyRecordDAO {
             log.info("[op:add] update cache ,redisKey:{}, allRecord:{}",
                     redisKey, JSON.toJSONString(allRecord));
         }
-        return moneyRecordMapper.insert(moneyRecordPO) > 0;
+        return res;
     }
 
     public boolean change(MoneyRecordPO moneyRecordPO) {
