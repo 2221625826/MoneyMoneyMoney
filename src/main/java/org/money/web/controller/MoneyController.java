@@ -59,19 +59,11 @@ public class MoneyController extends BaseController{
         if (Objects.isNull(userId)) {
             return initFailureResult("未登录");
         }
-        return initSuccessResult(moneyService.addMoney(userId, moneyRecordVO));
-    }
-
-    @PostMapping("/change")
-    public AjaxResult change(@RequestBody MoneyRecordVO moneyRecordVO) {
-        Long userId = UserContext.getUserId();
-        if (Objects.isNull(userId)) {
-            return initFailureResult("未登录");
-        }
         if (Objects.isNull(moneyRecordVO.getId())) {
-            return initFailureResult("请指定账单记录");
+            return initSuccessResult(moneyService.addMoney(userId, moneyRecordVO));
+        } else {
+            return initSuccessResult(moneyService.changeMoney(userId, moneyRecordVO));
         }
-        return initSuccessResult(moneyService.changeMoney(userId, moneyRecordVO));
     }
 
     @PostMapping("/batchDelete")
