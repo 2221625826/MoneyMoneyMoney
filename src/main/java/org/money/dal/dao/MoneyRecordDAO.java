@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.money.dal.mapper.MoneyRecordMapper;
 import org.money.integration.constant.RedisKeys;
@@ -79,8 +80,10 @@ public class MoneyRecordDAO {
     public boolean delete(List<Long> ids, int year, int month, long userId) {
         String redisKey = RedisKeys.genUserMoneyListKey(userId, year, month);
         if (Objects.equals(redisTemplate.hasKey(redisKey), Boolean.TRUE)) {
-            redisTemplate.delete(redisKey);
-            log.info("[op:delete] delete cache ,redisKey:{}", redisKey);
+            List<MoneyRecordPO> allRecord = JSON.parseArray(redisTemplate.opsForValue().get(redisKey), MoneyRecordPO.class);
+            allRecord = allRecord.stream().filter(record->(!ids.contains(record.getId()))).collect(Collectors.toList());
+            redisTemplate.opsForValue().set(redisKey, JSON.toJSONString(allRecord));
+            log.info("[op:delete] change cache ,redisKey:{}", redisKey);
         }
         return moneyRecordMapper.deleteBatch(ids);
     }
