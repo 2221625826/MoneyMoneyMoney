@@ -90,4 +90,9 @@ public class MoneyController extends BaseController{
         }
         return initSuccessResult(moneyService.sum(userId, year, month));
     }
+
+    @GetMapping("/getCategory")
+    public AjaxResult getCategory() {
+        return initSuccessResult();
+    }
 }
