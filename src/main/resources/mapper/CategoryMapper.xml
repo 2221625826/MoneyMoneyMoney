@@ -3,7 +3,7 @@
 <mapper namespace="org.money.dal.mapper.CategoryMapper">
   <resultMap id="BaseResultMap" type="org.money.model.po.CategoryPO">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="desc" jdbcType="VARCHAR" property="name" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="create_time" jdbcType="BIGINT" property="createTime" />
     <result column="update_time" jdbcType="BIGINT" property="updateTime" />
   </resultMap>
@@ -12,25 +12,25 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="org.money.model.po.CategoryPO">
-    insert into category (id, desc, create_time, 
+    insert into category (name, create_time,
       update_time)
-    values (#{id,jdbcType=BIGINT}, #{desc,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, 
+    values (#{name,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT},
       #{updateTime,jdbcType=BIGINT})
   </insert>
   <update id="updateByPrimaryKey" parameterType="org.money.model.po.CategoryPO">
     update category
-    set desc = #{desc,jdbcType=VARCHAR},
+    set name = #{name,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select id, desc, create_time, update_time
+    select *
     from category
     where id = #{id,jdbcType=BIGINT}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, desc, create_time, update_time
+    select *
     from category
   </select>
 </mapper>
