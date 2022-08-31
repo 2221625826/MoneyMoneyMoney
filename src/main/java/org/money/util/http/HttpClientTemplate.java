@@ -1,7 +1,6 @@
 package org.money.util.http;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -20,6 +19,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+
+import com.google.common.collect.Lists;
 
 /**
  * Http工具类
@@ -173,10 +174,10 @@ public class HttpClientTemplate {
      */
     public List<NameValuePair> parseToNameValuePairs(Map<String, String> map) {
         if (map == null || map.isEmpty()) {
-            return new ArrayList<>();
+            return Lists.newArrayList();
         }
 
-        List<NameValuePair> formParams = new ArrayList<>();
+        List<NameValuePair> formParams = Lists.newArrayList();
         for (Map.Entry<String, String> entry: map.entrySet()) {
             formParams.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
         }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.money.dal.mapper.CategoryMapper">
-  <resultMap id="BaseResultMap" type="org.money.model.po.Category">
+  <resultMap id="BaseResultMap" type="org.money.model.po.CategoryPO">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="desc" jdbcType="VARCHAR" property="desc" />
+    <result column="desc" jdbcType="VARCHAR" property="name" />
     <result column="create_time" jdbcType="BIGINT" property="createTime" />
     <result column="update_time" jdbcType="BIGINT" property="updateTime" />
   </resultMap>
@@ -11,13 +11,13 @@
     delete from category
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="org.money.model.po.Category">
+  <insert id="insert" parameterType="org.money.model.po.CategoryPO">
     insert into category (id, desc, create_time, 
       update_time)
     values (#{id,jdbcType=BIGINT}, #{desc,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, 
       #{updateTime,jdbcType=BIGINT})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="org.money.model.po.Category">
+  <update id="updateByPrimaryKey" parameterType="org.money.model.po.CategoryPO">
     update category
     set desc = #{desc,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=BIGINT},

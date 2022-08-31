@@ -3,9 +3,12 @@ package org.money.model.po;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import org.money.model.vo.CategoryVO;
+import org.springframework.beans.BeanUtils;
+
 @Data
 @Accessors(chain = true)
-public class Category {
+public class CategoryPO {
     /**
      * 类目id
      */
@@ -14,7 +17,7 @@ public class Category {
     /**
      * 描述
      */
-    private String desc;
+    private String name;
 
     /**
      * 创建时间
@@ -25,4 +28,10 @@ public class Category {
      * 更新时间
      */
     private Long updateTime;
+
+    public static CategoryPO of(CategoryVO CategoryVO) {
+        CategoryPO res = new CategoryPO();
+        BeanUtils.copyProperties(CategoryVO, res);
+        return res;
+    }
 }

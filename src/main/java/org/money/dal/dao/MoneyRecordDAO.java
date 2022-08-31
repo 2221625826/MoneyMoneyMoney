@@ -30,13 +30,13 @@ public class MoneyRecordDAO {
     @Resource
     RedisTemplate<String, String> redisTemplate;
 
-    public List<MoneyRecordPO> listByTime(long userId, int year, int month) {
+    public List<MoneyRecordPO> listByMonth(long userId, int year, int month) {
         String redisKey = RedisKeys.genUserMoneyListKey(userId, year, month);
-        long startTime = DateTimeUtils.getStartTimeOfMonth(year, month);
-        long endTime = DateTimeUtils.getEndTimeOfMonth(year, month);
         if (Objects.equals(redisTemplate.hasKey(redisKey), Boolean.TRUE)) {
             return JSON.parseArray(redisTemplate.opsForValue().get(redisKey), MoneyRecordPO.class);
         }
+        long startTime = DateTimeUtils.getStartTimeOfMonth(year, month);
+        long endTime = DateTimeUtils.getEndTimeOfMonth(year, month);
         List<MoneyRecordPO> allRecord = moneyRecordMapper.selectByTime(userId, startTime, endTime);
         redisTemplate.opsForValue().set(redisKey, JSON.toJSONString(allRecord));
         log.info("[op:listByTime] no cache ,redisKey:{}, allRecord:{}, startTime:{}, endTime:{}",

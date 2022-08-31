@@ -10,6 +10,7 @@ import org.money.model.common.Pagination;
 import org.money.model.request.MoneyDeleteRequest;
 import org.money.model.request.MoneyListRequest;
 import org.money.model.vo.MoneyRecordVO;
+import org.money.service.CategoryService;
 import org.money.service.MoneyService;
 import org.money.util.http.AjaxResult;
 import org.money.web.UserContext;
@@ -31,6 +32,8 @@ public class MoneyController extends BaseController{
 
     @Resource
     MoneyService moneyService;
+    @Resource
+    CategoryService categoryService;
 
     /**
      * 按时间列出账单
@@ -93,6 +96,6 @@ public class MoneyController extends BaseController{
 
     @GetMapping("/getCategory")
     public AjaxResult getCategory() {
-        return initSuccessResult();
+        return initSuccessResult(categoryService.getCategories());
     }
 }

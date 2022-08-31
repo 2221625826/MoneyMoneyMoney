@@ -4,10 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Resource;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -19,9 +16,12 @@ import org.money.model.po.MoneyRecordPO;
 import org.money.model.response.MoneySumResponse;
 import org.money.model.vo.MoneyRecordVO;
 import org.money.service.MoneyService;
+import org.money.util.MoneyUtils;
 import org.money.util.exception.ServiceException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author zhangyiheng03
@@ -36,11 +36,11 @@ public class MoneyServiceImpl implements MoneyService {
 
     @Override
     public PageResult<MoneyRecordVO> listMoney(long userId, Pagination pagination, int year, int month) {
-        List<MoneyRecordPO> allRecord = moneyRecordDAO.listByTime(userId, year, month);
+        List<MoneyRecordPO> allRecord = moneyRecordDAO.listByMonth(userId, year, month);
         PageResult<MoneyRecordVO> res = new PageResult<>();
         pagination.setTotal(allRecord.size());
         res.setPagination(pagination);
-        List<MoneyRecordVO> retList = new ArrayList<>();
+        List<MoneyRecordVO> retList = Lists.newArrayList();
         for (int i = pagination.genStartIndex(); i <= Math.min(pagination.genEndIndex(), allRecord.size() - 1); i++) {
             retList.add(MoneyRecordVO.of(allRecord.get(i)));
         }
@@ -65,7 +65,7 @@ public class MoneyServiceImpl implements MoneyService {
 
     @Override
     public boolean deleteMoney(long userId, List<Long> moneyIds, int year, int month) {
-        List<MoneyRecordPO> allRecord = moneyRecordDAO.listByTime(userId, year, month);
+        List<MoneyRecordPO> allRecord = moneyRecordDAO.listByMonth(userId, year, month);
         if (moneyIds.retainAll(allRecord.stream().map(MoneyRecordPO::getId).collect(Collectors.toList()))) {
             log.error("[op:deleteMoney] illegal parameter userId:{}, year:{}, month:{}, moneyIds:{}",
                     userId, year, month, moneyIds);
@@ -76,12 +76,12 @@ public class MoneyServiceImpl implements MoneyService {
 
     @Override
     public MoneySumResponse sum(long userId, int year, int month) {
-        List<MoneyRecordPO> allRecord = moneyRecordDAO.listByTime(userId, year, month);
+        List<MoneyRecordPO> allRecord = moneyRecordDAO.listByMonth(userId, year, month);
         long in = allRecord.stream().filter(r -> Objects.equals(r.getReverse(), 0)).map(MoneyRecordPO::getAmount).reduce(0L, Long::sum);
         long out = allRecord.stream().filter(r -> Objects.equals(r.getReverse(), 1)).map(MoneyRecordPO::getAmount).reduce(0L, Long::sum);
         MoneySumResponse ret = new MoneySumResponse();
-        ret.setIn(BigDecimal.valueOf(in).divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP));
-        ret.setOut(BigDecimal.valueOf(out).divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP));
+        ret.setIn(MoneyUtils.longToBigDecimal(in));
+        ret.setOut(MoneyUtils.longToBigDecimal(out));
         return ret;
     }
 }

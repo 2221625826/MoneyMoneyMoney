@@ -7,11 +7,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Objects;
 
 import org.money.model.po.MoneyRecordPO;
 import org.money.util.DateTimeUtils;
+import org.money.util.MoneyUtils;
 import org.springframework.beans.BeanUtils;
 
 /**
@@ -61,7 +61,7 @@ public class MoneyRecordVO {
     public static MoneyRecordVO of(MoneyRecordPO moneyRecordPO) {
         MoneyRecordVO res = new MoneyRecordVO();
         BeanUtils.copyProperties(moneyRecordPO, res);
-        res.setAmount(BigDecimal.valueOf(moneyRecordPO.getAmount()).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP));
+        res.setAmount(MoneyUtils.longToBigDecimal(moneyRecordPO.getAmount()));
         res.setReverse(Objects.equals(moneyRecordPO.getReverse(), 1) ? Boolean.TRUE : Boolean.FALSE);
         res.setPayTime(DateTimeUtils.parseLongToString(moneyRecordPO.getPayTime(), DateTimeUtils.YEAR_MONTH_DAY_FORMAT));
         return res;

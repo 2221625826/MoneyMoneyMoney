@@ -1,16 +1,16 @@
 package org.money.dal.mapper;
 
 import java.util.List;
-import org.money.model.po.Category;
+import org.money.model.po.CategoryPO;
 
 public interface CategoryMapper {
     int deleteByPrimaryKey(Long id);
 
-    int insert(Category record);
+    int insert(CategoryPO record);
 
-    Category selectByPrimaryKey(Long id);
+    CategoryPO selectByPrimaryKey(Long id);
 
-    List<Category> selectAll();
+    List<CategoryPO> selectAll();
 
-    int updateByPrimaryKey(Category record);
+    int updateByPrimaryKey(CategoryPO record);
 }
