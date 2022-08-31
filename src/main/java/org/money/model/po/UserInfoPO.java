@@ -21,6 +21,11 @@ public class UserInfoPO {
     private Long userId;
 
     /**
+     * 用户昵称
+     */
+    private String name;
+
+    /**
      * 性别 0-女 1-男 2-未知
      */
     private Integer sex;

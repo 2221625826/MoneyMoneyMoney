@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="org.money.model.po.UserInfoPO">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="sex" jdbcType="INTEGER" property="sex" />
     <result column="birthday" jdbcType="INTEGER" property="birthday" />
     <result column="introduce" jdbcType="VARCHAR" property="introduce" />
@@ -15,16 +16,17 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="org.money.model.po.UserInfoPO">
-    insert into user_info (user_id, sex,
+    insert into user_info (user_id, name, sex,
       birthday, introduce, create_time, 
       update_time)
-    values (#{userId,jdbcType=INTEGER}, #{sex,jdbcType=INTEGER},
+    values (#{userId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER},
       #{birthday,jdbcType=INTEGER}, #{introduce,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT},
       #{updateTime,jdbcType=BIGINT})
   </insert>
   <update id="updateByPrimaryKey" parameterType="org.money.model.po.UserInfoPO">
     update user_info
     <set>
+      name = #{name,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=INTEGER},
       birthday = #{birthday,jdbcType=INTEGER},
       introduce = #{introduce,jdbcType=VARCHAR},
@@ -35,12 +37,8 @@
     </where>
   </update>
   <select id="getByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, user_id, sex, birthday, introduce, create_time, update_time
+    select *
     from user_info
     where user_id = #{userId,jdbcType=INTEGER}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select id, user_id, sex, birthday, introduce, create_time, update_time
-    from user_info
   </select>
 </mapper>

@@ -21,6 +21,11 @@ public class UserInfoVO {
     private Long userId;
 
     /**
+     * 用户昵称
+     */
+    private String name;
+
+    /**
      * 性别
      */
     private String sex;
