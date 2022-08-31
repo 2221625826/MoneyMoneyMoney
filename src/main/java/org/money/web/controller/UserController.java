@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
+import org.money.model.request.RegisterRequest;
 import org.money.model.vo.UserInfoVO;
 import org.money.service.LoginService;
 import org.money.util.exception.ServiceException;
@@ -45,13 +46,10 @@ public class UserController extends BaseController{
         return initSuccessResult(token);
     }
 
-    @GetMapping("/register")
-    public AjaxResult register(@RequestParam String username, @RequestParam String password) {
-        if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
-            return initFailureResult("账号或密码为空");
-        }
+    @PostMapping("/register")
+    public AjaxResult register(@RequestBody RegisterRequest registerRequest) {
         try {
-            String token = loginService.register(username, password);
+            String token = loginService.register(registerRequest);
             return initSuccessResult(token);
         } catch (ServiceException se) {
             return initFailureResult(se.getMessage());

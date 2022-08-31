@@ -1,5 +1,6 @@
 package org.money.service;
 
+import org.money.model.request.RegisterRequest;
 import org.money.model.vo.UserInfoVO;
 
 /**
@@ -18,12 +19,11 @@ public interface LoginService {
     String login(String username, String password);
 
     /**
-     * 用户注册
-     * @param username 用户名
-     * @param password 密码
+     * 注册
+     * @param registerRequest 注册请求体
      * @return 登录token
      */
-    String register(String username, String password);
+    String register(RegisterRequest registerRequest);
 
     /**
      * 编辑用户信息

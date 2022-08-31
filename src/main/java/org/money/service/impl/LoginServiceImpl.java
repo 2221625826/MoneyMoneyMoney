@@ -10,6 +10,7 @@ import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.money.dal.dao.UserInfoDAO;
 import org.money.model.po.UserInfoPO;
+import org.money.model.request.RegisterRequest;
 import org.money.model.vo.UserInfoVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,12 +50,13 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     @Transactional(rollbackFor = {SQLException.class}, noRollbackFor = {ServiceException.class})
-    public String register(String username, String password) {
+    public String register(RegisterRequest registerRequest) {
+        String username = registerRequest.getUsername();
         AccountPO account = accountDAO.getAccount(username);
         if (Objects.nonNull(account)) {
             throw new ServiceException("账号已存在");
         }
-        password = CodeUtils.Base64Decode(password);
+        String password = CodeUtils.Base64Decode(registerRequest.getPassword());
         if (!passwordValidate(password.toCharArray())) {
             throw new ServiceException("密码不符合要求");
         }
@@ -62,6 +64,11 @@ public class LoginServiceImpl implements LoginService {
         accountDAO.insert(account);
         userInfoDAO.insert(UserInfoPO.build(account.getId()));
         log.info("[op:register] userId={}", account.getId());
+
+        UserInfoPO userInfoPO = UserInfoPO.of(registerRequest.getUserInfo());
+        userInfoPO.setUserId(account.getId());
+        userInfoDAO.insert(userInfoPO);
+
         return JWTUtils.createToken(String.valueOf(account.getId()));
     }
 

@@ -28,6 +28,8 @@ public class UserInfoDAO {
     }
 
     public boolean insert(UserInfoPO userInfoPO) {
+        userInfoPO.setCreateTime(System.currentTimeMillis());
+        userInfoPO.setUpdateTime(System.currentTimeMillis());
         return userInfoMapper.insert(userInfoPO) > 0;
     }
 
